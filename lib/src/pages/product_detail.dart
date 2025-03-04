@@ -6,7 +6,7 @@ import 'package:flutter_ecommerce_app/src/widgets/title_text.dart';
 import 'package:flutter_ecommerce_app/src/widgets/extentions.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  ProductDetailPage({Key key}) : super(key: key);
+  ProductDetailPage({Key ?key}) : super(key: key);
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -14,15 +14,18 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage>
     with TickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
+  late final AnimationController controller;
+  late final Animation<double> animation;
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
     animation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeInToLinear));
+      CurvedAnimation(parent: controller, curve: Curves.easeInToLinear),
+    );
     controller.forward();
   }
 
@@ -49,15 +52,18 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               Navigator.of(context).pop();
             },
           ),
-          _icon(isLiked ? Icons.favorite : Icons.favorite_border,
-              color: isLiked ? LightColor.red : LightColor.lightGrey,
-              size: 15,
-              padding: 12,
-              isOutLine: false, onPressed: () {
-            setState(() {
-              isLiked = !isLiked;
-            });
-          }),
+          _icon(
+            isLiked ? Icons.favorite : Icons.favorite_border,
+            color: isLiked ? LightColor.red : LightColor.lightGrey,
+            size: 15,
+            padding: 12,
+            isOutLine: false,
+            onPressed: () {
+              setState(() {
+                isLiked = !isLiked;
+              });
+            },
+          ),
         ],
       ),
     );
@@ -69,7 +75,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     double size = 20,
     double padding = 10,
     bool isOutLine = false,
-    Function onPressed,
+    Function ?onPressed,
   }) {
     return Container(
       height: 40,
@@ -78,17 +84,19 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       // margin: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         border: Border.all(
-            color: LightColor.iconColor,
-            style: isOutLine ? BorderStyle.solid : BorderStyle.none),
+          color: LightColor.iconColor,
+          style: isOutLine ? BorderStyle.solid : BorderStyle.none,
+        ),
         borderRadius: BorderRadius.all(Radius.circular(13)),
         color:
-            isOutLine ? Colors.transparent : Theme.of(context).backgroundColor,
+            isOutLine ? Colors.transparent : Theme.of(context).colorScheme.surface,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Color(0xfff8f8f8),
-              blurRadius: 5,
-              spreadRadius: 10,
-              offset: Offset(5, 5)),
+            color: Color(0xfff8f8f8),
+            blurRadius: 5,
+            spreadRadius: 10,
+            offset: Offset(5, 5),
+          ),
         ],
       ),
       child: Icon(icon, color: color, size: size),
@@ -112,12 +120,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          TitleText(
-            text: "AIP",
-            fontSize: 160,
-            color: LightColor.lightGrey,
-          ),
-          Image.asset('assets/show_1.png')
+          TitleText(text: "AIP", fontSize: 160, color: LightColor.lightGrey),
+          Image.asset('assets/show_1.png'),
         ],
       ),
     );
@@ -129,10 +133,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       width: AppTheme.fullWidth(context),
       height: 80,
       child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:
-              AppData.showThumbnailList.map((x) => _thumbnail(x)).toList()),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: AppData.showThumbnailList.map((x) => _thumbnail(x)).toList(),
+      ),
     );
   }
 
@@ -140,20 +144,19 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return AnimatedBuilder(
       animation: animation,
       //  builder: null,
-      builder: (context, child) => AnimatedOpacity(
-        opacity: animation.value,
-        duration: Duration(milliseconds: 500),
-        child: child,
-      ),
+      builder:
+          (context, child) => AnimatedOpacity(
+            opacity: animation.value,
+            duration: Duration(milliseconds: 500),
+            child: child,
+          ),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Container(
           height: 40,
           width: 50,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: LightColor.grey,
-            ),
+            border: Border.all(color: LightColor.grey),
             borderRadius: BorderRadius.all(Radius.circular(13)),
             // color: Theme.of(context).backgroundColor,
           ),
@@ -172,11 +175,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         return Container(
           padding: AppTheme.padding.copyWith(bottom: 0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-              color: Colors.white),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            color: Colors.white,
+          ),
           child: SingleChildScrollView(
             controller: scrollController,
             child: Column(
@@ -190,8 +194,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     width: 50,
                     height: 5,
                     decoration: BoxDecoration(
-                        color: LightColor.iconColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                      color: LightColor.iconColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -212,22 +217,31 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 fontSize: 18,
                                 color: LightColor.red,
                               ),
-                              TitleText(
-                                text: "240",
-                                fontSize: 25,
-                              ),
+                              TitleText(text: "240", fontSize: 25),
                             ],
                           ),
                           Row(
                             children: <Widget>[
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
+                              Icon(
+                                Icons.star,
+                                color: LightColor.yellowColor,
+                                size: 17,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: LightColor.yellowColor,
+                                size: 17,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: LightColor.yellowColor,
+                                size: 17,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: LightColor.yellowColor,
+                                size: 17,
+                              ),
                               Icon(Icons.star_border, size: 17),
                             ],
                           ),
@@ -236,17 +250,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 _availableSize(),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 _availableColor(),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 _description(),
               ],
             ),
@@ -260,10 +268,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TitleText(
-          text: "Available Size",
-          fontSize: 14,
-        ),
+        TitleText(text: "Available Size", fontSize: 14),
         SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -273,7 +278,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             _sizeWidget("US 8"),
             _sizeWidget("US 9"),
           ],
-        )
+        ),
       ],
     );
   }
@@ -283,11 +288,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
-            color: LightColor.iconColor,
-            style: !isSelected ? BorderStyle.solid : BorderStyle.none),
+          color: LightColor.iconColor,
+          style: !isSelected ? BorderStyle.solid : BorderStyle.none,
+        ),
         borderRadius: BorderRadius.all(Radius.circular(13)),
         color:
-            isSelected ? LightColor.orange : Theme.of(context).backgroundColor,
+            isSelected ? LightColor.orange : Theme.of(context).colorScheme.surface,
       ),
       child: TitleText(
         text: text,
@@ -301,33 +307,22 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TitleText(
-          text: "Available Size",
-          fontSize: 14,
-        ),
+        TitleText(text: "Available Size", fontSize: 14),
         SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _colorWidget(LightColor.yellowColor, isSelected: true),
-            SizedBox(
-              width: 30,
-            ),
+            SizedBox(width: 30),
             _colorWidget(LightColor.lightBlue),
-            SizedBox(
-              width: 30,
-            ),
+            SizedBox(width: 30),
             _colorWidget(LightColor.black),
-            SizedBox(
-              width: 30,
-            ),
+            SizedBox(width: 30),
             _colorWidget(LightColor.red),
-            SizedBox(
-              width: 30,
-            ),
+            SizedBox(width: 30),
             _colorWidget(LightColor.skyBlue),
           ],
-        )
+        ),
       ],
     );
   }
@@ -336,13 +331,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return CircleAvatar(
       radius: 12,
       backgroundColor: color.withAlpha(150),
-      child: isSelected
-          ? Icon(
-              Icons.check_circle,
-              color: color,
-              size: 18,
-            )
-          : CircleAvatar(radius: 7, backgroundColor: color),
+      child:
+          isSelected
+              ? Icon(Icons.check_circle, color: color, size: 18)
+              : CircleAvatar(radius: 7, backgroundColor: color),
     );
   }
 
@@ -350,10 +342,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TitleText(
-          text: "Available Size",
-          fontSize: 14,
-        ),
+        TitleText(text: "Available Size", fontSize: 14),
         SizedBox(height: 20),
         Text(AppData.description),
       ],
@@ -364,8 +353,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return FloatingActionButton(
       onPressed: () {},
       backgroundColor: LightColor.orange,
-      child: Icon(Icons.shopping_basket,
-          color: Theme.of(context).floatingActionButtonTheme.backgroundColor),
+      child: Icon(
+        Icons.shopping_basket,
+        color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+      ),
     );
   }
 
@@ -376,14 +367,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              Color(0xfffbfbfb),
-              Color(0xfff7f7f7),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
+            gradient: LinearGradient(
+              colors: [Color(0xfffbfbfb), Color(0xfff7f7f7)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           child: Stack(
             children: <Widget>[
               Column(
@@ -393,7 +382,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   _categoryWidget(),
                 ],
               ),
-              _detailWidget()
+              _detailWidget(),
             ],
           ),
         ),

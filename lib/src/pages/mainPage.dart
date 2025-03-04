@@ -8,9 +8,9 @@ import 'package:flutter_ecommerce_app/src/widgets/title_text.dart';
 import 'package:flutter_ecommerce_app/src/widgets/extentions.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
+  const MainPage({super.key, this.title});
 
-  final String title;
+  final String? title;
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -32,17 +32,18 @@ class _MainPageState extends State<MainPage> {
             borderRadius: BorderRadius.all(Radius.circular(13)),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.surface,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Color(0xfff8f8f8),
-                      blurRadius: 10,
-                      spreadRadius: 10),
+                    color: Color(0xfff8f8f8),
+                    blurRadius: 10,
+                    spreadRadius: 10,
+                  ),
                 ],
               ),
               child: Image.asset("assets/user.png"),
             ),
-          ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13)))
+          ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13))),
         ],
       ),
     );
@@ -52,49 +53,48 @@ class _MainPageState extends State<MainPage> {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(13)),
-          color: Theme.of(context).backgroundColor,
-          boxShadow: AppTheme.shadow),
-      child: Icon(
-        icon,
-        color: color,
+        borderRadius: BorderRadius.all(Radius.circular(13)),
+        color: Theme.of(context).colorScheme.surface,
+        boxShadow: AppTheme.shadow,
       ),
+      child: Icon(icon, color: color),
     ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13)));
   }
 
   Widget _title() {
     return Container(
-        margin: AppTheme.padding,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TitleText(
-                  text: isHomePageSelected ? 'Our' : 'Shopping',
-                  fontSize: 27,
-                  fontWeight: FontWeight.w400,
-                ),
-                TitleText(
-                  text: isHomePageSelected ? 'Products' : 'Cart',
-                  fontSize: 27,
-                  fontWeight: FontWeight.w700,
-                ),
-              ],
-            ),
-            Spacer(),
-            !isHomePageSelected
-                ? Container(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(
-                      Icons.delete_outline,
-                      color: LightColor.orange,
-                    ),
-                ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13)))
-                : SizedBox()
-          ],
-        ));
+      margin: AppTheme.padding,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TitleText(
+                text: isHomePageSelected ? 'Our' : 'Shopping',
+                fontSize: 27,
+                fontWeight: FontWeight.w400,
+              ),
+              TitleText(
+                text: isHomePageSelected ? 'Products' : 'Cart',
+                fontSize: 27,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          ),
+          Spacer(),
+          !isHomePageSelected
+              ? Container(
+                padding: EdgeInsets.all(10),
+                child: Icon(Icons.delete_outline, color: LightColor.orange),
+              ).ripple(
+                () {},
+                borderRadius: BorderRadius.all(Radius.circular(13)),
+              )
+              : SizedBox(),
+        ],
+      ),
+    );
   }
 
   void onBottomIconPressed(int index) {
@@ -121,10 +121,7 @@ class _MainPageState extends State<MainPage> {
                 height: AppTheme.fullHeight(context) - 50,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color(0xfffbfbfb),
-                      Color(0xfff7f7f7),
-                    ],
+                    colors: [Color(0xfffbfbfb), Color(0xfff7f7f7)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -139,14 +136,15 @@ class _MainPageState extends State<MainPage> {
                         duration: Duration(milliseconds: 300),
                         switchInCurve: Curves.easeInToLinear,
                         switchOutCurve: Curves.easeOutBack,
-                        child: isHomePageSelected
-                            ? MyHomePage()
-                            : Align(
-                                alignment: Alignment.topCenter,
-                                child: ShoppingCartPage(),
-                              ),
+                        child:
+                            isHomePageSelected
+                                ? MyHomePage()
+                                : Align(
+                                  alignment: Alignment.topCenter,
+                                  child: ShoppingCartPage(),
+                                ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -157,7 +155,7 @@ class _MainPageState extends State<MainPage> {
               child: CustomBottomNavigationBar(
                 onIconPresedCallback: onBottomIconPressed,
               ),
-            )
+            ),
           ],
         ),
       ),
